@@ -1,11 +1,12 @@
 
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
-  <title>Sistema de Gestão da Qualidade - Carmel Hotéis</title>
-  <style>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<title>Sistema de Gestão da Qualidade - Carmel Hotéis</title>
+<style>
     * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
@@ -59,10 +60,10 @@
       overflow: hidden;
     }
     .sidebar {
-      width: 260px;
+      width: 180px;
       background-color: #e8e6e4;
       padding: 20px 20px;
-      font-size: 12px;
+      font-size: 11px;
       color: #4B2E2B;
       overflow-y: auto;
     }
@@ -74,8 +75,7 @@
       height: 100%;
       border: none;
     }
-    .sidebar h3 {
-      font-size: 13px;
+    Jpx;
       margin: 10px 0 5px 0;
     }
     .sidebar ul {
@@ -127,70 +127,87 @@
   }
 }
 
-</style>
 
-  <script>
+    @media (min-width: 769px) {
+      .sidebar {
+        font-size: 10px;
+      }
+      .dashboard iframe {
+        height: 95vh;
+      }
+    }
+    
+    .sidebar {
+      font-size: 10px;
+    }
+    
+    .menu button {
+      padding: 6px 10px;
+      font-size: 12px;
+      margin: 0 3px;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        font-size: 9px;
+        width: 160px;
+      }
+    }
+    </style>
+<script>
     const senha = prompt("Digite a senha para acessar o sistema:");
     if (senha !== "carmel123") {
       alert("Acesso negado.");
       window.location.href = "https://www.google.com";
     }
   </script>
-
 </head>
 <body>
-
-  <header>
-    <img class="logo" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png" alt="Logo Carmel Hotéis">
-    <h1 class="title">Sistema de Gestão da Qualidade</h1>
-  </header>
-
-  <div class="menu">
-    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Programa 5S</button>
-    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Colaborar + Carmel</button>
-    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Gestão de Resíduos</button>
-    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Qualyteam - Módulo DOC</button>
-  </div>
-
-  <div class="main-container">
-    <div class="sidebar">
-      <h3>PROGRAMA 5S</h3>
-      <ul><li>Auditoria Mensal de Qualidade dos Setores</li></ul>
-      <h3>PROGRAMA COLABORAR + CARMEL</h3>
-      <ul><li>Programa de Ideias Corporativo</li></ul>
-      <h3>GESTÃO DE RESÍDUOS</h3>
-      <ul><li>Relatório de Doações Realizadas</li></ul>
-      <h3>QUALYTEAM - MÓDULO DOC</h3>
-      <ul><li>Sistema de Gestão de Documentos</li></ul>
-    </div>
-
-    <div class="dashboard">
-      <iframe id="relatorio" src=""></iframe>
-    </div>
-
-    <div class="sidebar">
-      <h3>Nossa MISSÃO</h3>
-      <ul><li>Proporcionar sensações, emoções & boas lembranças.</li></ul>
-      <h3>Nossa VISÃO</h3>
-      <ul><li>Ser a grife mais desejada da hotelaria nacional.</li></ul>
-      <h3>Nossos VALORES</h3>
-      <ul>
-        <li>Relacionamentos com Ética</li>
-        <li>Ser Parte da Solução</li>
-        <li>Mão na Massa</li>
-        <li>Paixão por Servir</li>
-        <li>Responsabilidade Socioambiental</li>
-      </ul>
-      <h3>Nosso PROPÓSITO</h3>
-      <ul><li>Existimos para receber, encantar & surpreender.</li></ul>
-    </div>
-  </div>
-
-  <script>
+<header>
+<img alt="Logo Carmel Hotéis" class="logo" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png"/>
+<h1 class="title">Sistema de Gestão da Qualidade</h1>
+</header>
+<div class="menu">
+<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Programa 5S</button>
+<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Colaborar + Carmel</button>
+<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Gestão de Resíduos</button>
+<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Qualyteam - Módulo DOC</button>
+</div>
+<div class="main-container">
+<div class="sidebar">
+<h3>PROGRAMA 5S</h3>
+<ul><li>Auditoria Mensal de Qualidade dos Setores</li></ul>
+<h3>COLABORAR + CARMEL</h3>
+<ul><li>Programa de Ideias Corporativo</li></ul>
+<h3>GESTÃO DE RESÍDUOS</h3>
+<ul><li>Relatório de Doações Realizadas</li></ul>
+<h3>QUALYTEAM - MÓDULO DOC</h3>
+<ul><li>Sistema de Gestão de Documentos</li></ul>
+</div>
+<div class="dashboard">
+<iframe id="relatorio" src=""></iframe>
+</div>
+<div class="sidebar">
+<h3>Nossa MISSÃO</h3>
+<ul><li>Proporcionar sensações, emoções &amp; boas lembranças.</li></ul>
+<h3>Nossa VISÃO</h3>
+<ul><li>Ser a grife mais desejada da hotelaria nacional.</li></ul>
+<h3>Nossos VALORES</h3>
+<ul>
+<li>Relacionamentos com Ética</li>
+<li>Ser Parte da Solução</li>
+<li>Mão na Massa</li>
+<li>Paixão por Servir</li>
+<li>Responsabilidade Socioambiental</li>
+</ul>
+<h3>Nosso PROPÓSITO</h3>
+<ul><li>Existimos para receber, encantar &amp; surpreender.</li></ul>
+</div>
+</div>
+<script>
     function carregarRelatorio(url) {
       document.getElementById('relatorio').src = url;
     }
   </script>
-
 </body>
 </html>
