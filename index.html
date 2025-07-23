@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <title>Sistema de Gestão da Qualidade - Carmel Hotéis</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -31,6 +33,7 @@
     .title {
       font-size: 22px;
       margin: 0;
+      text-align: center;
     }
     .menu {
       display: flex;
@@ -51,18 +54,45 @@
     .menu button:hover {
       background-color: #ddd;
     }
-    iframe {
+    .main-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 260px;
+      background-color: #e8e6e4;
+      padding: 20px 20px;
+      font-size: 12px;
+      color: #4B2E2B;
+      overflow-y: auto;
+    }
+    .dashboard {
       flex-grow: 1;
+    }
+    iframe {
       width: 100%;
-      height: calc(100vh - 122px);
+      height: 100%;
       border: none;
+    }
+    .sidebar h3 {
+      font-size: 13px;
+      margin: 10px 0 5px 0;
+    }
+    .sidebar ul {
+      padding-left: 18px;
+      margin: 0 0 10px 0;
+    }
+    .sidebar ul li {
+      list-style: disc;
+      margin-bottom: 4px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <img class="logo" src="logo-carmel.png" alt="Logo Carmel Hotéis">
+    <img class="logo" src="ChatGPT Image 22 de jul. de 2025, 11_29_22.png" alt="Logo Carmel Hotéis">
     <h1 class="title">Sistema de Gestão da Qualidade</h1>
   </header>
 
@@ -72,7 +102,37 @@
     <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Gestão de Resíduos</button>
   </div>
 
-  <iframe id="relatorio" src=""></iframe>
+  <div class="main-container">
+    <div class="sidebar">
+      <h3>PROGRAMA 5S</h3>
+      <ul><li>Auditoria Mensal de Qualidade dos Setores</li></ul>
+      <h3>PROGRAMA COLABORAR + CARMEL</h3>
+      <ul><li>Programa de Ideias Corporativo</li></ul>
+      <h3>GESTÃO DE RESÍDUOS</h3>
+      <ul><li>Relatório de Doações Realizadas</li></ul>
+    </div>
+
+    <div class="dashboard">
+      <iframe id="relatorio" src=""></iframe>
+    </div>
+
+    <div class="sidebar">
+      <h3>nossa MISSÃO</h3>
+      <ul><li>Proporcionar sensações, emoções & boas lembranças.</li></ul>
+      <h3>nossa VISÃO</h3>
+      <ul><li>Ser a grife mais desejada da hotelaria nacional.</li></ul>
+      <h3>nossos VALORES</h3>
+      <ul>
+        <li>Relacionamentos com Ética</li>
+        <li>Ser Parte da Solução</li>
+        <li>Mão na Massa</li>
+        <li>Paixão por Servir</li>
+        <li>Responsabilidade Socioambiental</li>
+      </ul>
+      <h3>nosso PROPÓSITO</h3>
+      <ul><li>Existimos para receber, encantar & surpreender.</li></ul>
+    </div>
+  </div>
 
   <script>
     function carregarRelatorio(url) {
