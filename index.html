@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Gestão da Qualidade - Carmel Hotéis</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f7f5f2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #4B2E2B;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .logo {
+      position: absolute;
+      left: 20px;
+      height: 50px;
+    }
+    .title {
+      font-size: 22px;
+      margin: 0;
+    }
+    .menu {
+      display: flex;
+      justify-content: center;
+      background-color: #e8e6e4;
+      padding: 10px;
+    }
+    .menu button {
+      margin: 0 5px;
+      padding: 8px 16px;
+      font-size: 14px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .menu button:hover {
+      background-color: #ddd;
+    }
+    iframe {
+      flex-grow: 1;
+      width: 100%;
+      height: calc(100vh - 122px);
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img class="logo" src="logo-carmel.png" alt="Logo Carmel Hotéis">
+    <h1 class="title">Sistema de Gestão da Qualidade</h1>
+  </header>
+
+  <div class="menu">
+    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Programa 5S</button>
+    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Colaborar + Carmel</button>
+    <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Gestão de Resíduos</button>
+  </div>
+
+  <iframe id="relatorio" src=""></iframe>
+
+  <script>
+    function carregarRelatorio(url) {
+      document.getElementById('relatorio').src = url;
+    }
+  </script>
+
+</body>
+</html>
