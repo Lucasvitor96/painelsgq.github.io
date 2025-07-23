@@ -1,13 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <title>Sistema de Gestão da Qualidade - Carmel Hotéis</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -88,6 +85,16 @@
       margin-bottom: 4px;
     }
   </style>
+
+  <!-- Bloqueio por senha (inseguro para uso público) -->
+  <script>
+    const senha = prompt("Digite a senha para acessar o sistema:");
+    if (senha !== "carmel123") {
+      alert("Acesso negado.");
+      window.location.href = "https://www.google.com";
+    }
+  </script>
+
 </head>
 <body>
 
