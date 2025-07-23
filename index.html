@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Sistema de Gestão da Qualidade - Carmel Hotéis</title>
   <style>
@@ -85,7 +86,45 @@
       list-style: disc;
       margin-bottom: 4px;
     }
-  </style>
+  
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo {
+    position: static;
+    margin-bottom: 10px;
+    height: 40px;
+  }
+
+  .main-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu button {
+    width: 90%;
+    margin: 5px 0;
+  }
+
+  iframe {
+    height: 400px;
+  }
+}
+
+</style>
 
   <script>
     const senha = prompt("Digite a senha para acessar o sistema:");
