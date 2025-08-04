@@ -177,26 +177,27 @@
 <div class="sidebar">
 <h4><strong>PROGRAMA 5S</strong></h4>
 <ul><li>Auditoria Mensal de Qualidade dos Setores</li></ul>
-<hr>
+<hr/>
 <h4><strong>COLABORAR + CARMEL</strong></h4>
 <ul><li>Programa de Ideias Corporativo</li></ul>
-<hr>
+<hr/>
 <h4><strong>GESTÃO DE RESÍDUOS</strong></h4>
 <ul><li>Relatório de Doações Realizadas</li></ul>
-<hr>
+<hr/>
 <h4><strong>QUALYTEAM - MÓDULO DOC</strong></h4>
 <ul><li>Sistema de Gestão de Documentos</li></ul>
 </div>
 <div class="dashboard">
-<iframe id="relatorio" src=""></iframe>
+<div id="inicio" style="text-align: center; padding: 40px; color: #4B2E2B;"><img alt="Logo Carmel Hotéis" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height: 100px; margin-bottom: 20px;"/><p style="font-size: 18px;">Clique em um dos módulos acima para visualizar os relatórios interativos.
+Este painel reúne informações estratégicas para apoiar a cultura da qualidade.</p></div><iframe id="relatorio" src="" style="display: none;"></iframe>
 </div>
 <div class="sidebar">
 <h3><strong>Nossa MISSÃO</strong></h3>
 <ul><li>Proporcionar sensações, emoções &amp; boas lembranças.</li></ul>
-<hr>
+<hr/>
 <h3><strong>Nossa VISÃO</strong></h3>
 <ul><li>Ser a grife mais desejada da hotelaria nacional.</li></ul>
-<hr>
+<hr/>
 <h3><strong>Nossos VALORES</strong></h3>
 <ul>
 <li>Relacionamentos com Ética</li>
@@ -205,13 +206,15 @@
 <li>Paixão por Servir</li>
 <li>Responsabilidade Socioambiental</li>
 </ul>
-<hr>
+<hr/>
 <h3><strong>Nosso PROPÓSITO</strong></h3>
 <ul><li>Existimos para receber, encantar &amp; surpreender.</li></ul>
 </div>
 </div>
 <script>
     function carregarRelatorio(url) {
+      document.getElementById('inicio').style.display = 'none';
+      document.getElementById('relatorio').style.display = 'block';
       document.getElementById('relatorio').src = url;
     }
   </script>
