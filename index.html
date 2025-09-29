@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -75,17 +73,6 @@
       height: 100%;
       border: none;
     }
-    Jpx;
-      margin: 10px 0 5px 0;
-    }
-    .sidebar ul {
-      padding-left: 18px;
-      margin: 0 0 10px 0;
-    }
-    .sidebar ul li {
-      list-style: disc;
-      margin-bottom: 4px;
-    }
   
 @media (max-width: 768px) {
   .sidebar {
@@ -127,7 +114,6 @@
   }
 }
 
-
     @media (min-width: 769px) {
       .sidebar {
         font-size: 10px;
@@ -153,14 +139,14 @@
         width: 160px;
       }
     }
-    </style>
+</style>
 <script>
     const senha = prompt("Digite a senha para acessar o sistema:");
     if (senha !== "carmel123") {
       alert("Acesso negado.");
       window.location.href = "https://www.google.com";
     }
-  </script>
+</script>
 </head>
 <body>
 <header>
@@ -168,10 +154,12 @@
 <h1 class="title">Sistema de Gestão da Qualidade</h1>
 </header>
 <div class="menu">
-<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Programa 5S</button>
-<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Colaborar + Carmel</button>
-<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Gestão de Resíduos</button>
-<button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Qualyteam - Módulo DOC</button>
+  <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Programa 5S</button>
+  <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Colaborar + Carmel</button>
+  <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Gestão de Resíduos</button>
+  <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Qualyteam - Módulo DOC</button>
+  <!-- Novo botão -->
+  <button onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNWUxNWI4NGUtZDlmYy00ODczLWE5NTctMWQ0ZjI4MjdmNTIyIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">Review Pro</button>
 </div>
 <div class="main-container">
 <div class="sidebar">
@@ -186,10 +174,19 @@
 <hr/>
 <h4><strong>QUALYTEAM - MÓDULO DOC</strong></h4>
 <ul><li>Sistema de Gestão de Documentos</li></ul>
+<hr/>
+<h4><strong>REVIEW PRO</strong></h4>
+<ul><li>Sistema de Avaliações</li></ul>
 </div>
 <div class="dashboard">
-<div id="inicio" style="text-align: center; padding: 40px; color: #4B2E2B;"><img alt="Logo Carmel Hotéis" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height: 100px; margin-bottom: 20px;"/><p style="font-size: 18px;">Clique em um dos módulos acima para visualizar os relatórios interativos.
-Este painel reúne informações estratégicas para apoiar a cultura do sistema de gestão Carmel.</p></div><iframe id="relatorio" src="" style="display: none;"></iframe>
+<div id="inicio" style="text-align: center; padding: 40px; color: #4B2E2B;">
+  <img alt="Logo Carmel Hotéis" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height: 100px; margin-bottom: 20px;"/>
+  <p style="font-size: 18px;">
+    Clique em um dos módulos acima para visualizar os relatórios interativos.
+    Este painel reúne informações estratégicas para apoiar a cultura do sistema de gestão Carmel.
+  </p>
+</div>
+<iframe id="relatorio" src="" style="display: none;"></iframe>
 </div>
 <div class="sidebar">
 <h3><strong>Nossa MISSÃO</strong></h3>
@@ -217,6 +214,6 @@ Este painel reúne informações estratégicas para apoiar a cultura do sistema 
       document.getElementById('relatorio').style.display = 'block';
       document.getElementById('relatorio').src = url;
     }
-  </script>
+</script>
 </body>
 </html>
