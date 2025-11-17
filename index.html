@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sistema de Gestão Integrado - Carmel Hotéis</title>
+
 <style>
   * { box-sizing: border-box; }
   :root{
@@ -18,6 +19,7 @@
     display: flex;
     flex-direction: column;
   }
+
   header {
     background-color: var(--marrom);
     color: white;
@@ -27,23 +29,50 @@
     justify-content: center;
     position: relative;
   }
+
   .logo { position: absolute; left: 16px; height: 42px; }
   .title { font-size: 20px; margin: 0; text-align: center; }
 
+  /* ÁREA INVISÍVEL QUE ATIVA O MENU */
+  #hover-zone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px; 
+    z-index: 90;
+  }
+
+  /* MENU SUSPENSO OCULTO */
   .topbar {
-    position: relative;
+    position: fixed;
+    top: -80px;
+    left: 0;
+    width: 100%;
+    background: var(--cinza);
+    padding: 8px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--cinza);
-    padding: 8px 10px;
+    transition: top .35s ease, opacity .35s ease;
+    opacity: 0;
+    z-index: 99;
   }
+
+  /* Quando o mouse encostar no topo ou estiver sobre o menu */
+  #hover-zone:hover + .topbar,
+  .topbar:hover {
+    top: 0;
+    opacity: 1;
+  }
+
   .menu {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 6px;
   }
+
   .menu button {
     position: relative;
     padding: 6px 12px;
@@ -54,8 +83,13 @@
     cursor: pointer;
     transition: background-color .2s ease, box-shadow .2s ease;
   }
-  .menu button:hover { background: #ddd; box-shadow: 0 6px 16px rgba(0,0,0,.1); }
 
+  .menu button:hover {
+    background: #ddd;
+    box-shadow: 0 6px 16px rgba(0,0,0,.1);
+  }
+
+  /* Tooltips */
   .menu button::after {
     content: attr(data-tip);
     position: absolute;
@@ -67,144 +101,138 @@
     border-radius: 8px;
     font-size: 12px;
     white-space: nowrap;
-    opacity: 0; pointer-events: none;
+    opacity: 0; 
+    pointer-events: none;
     transition: opacity .15s ease;
     box-shadow: 0 6px 20px rgba(0,0,0,.2);
     z-index: 10;
   }
-  .menu button::before {
-    content: ""; position: absolute; left: 50%; top: 100%;
-    transform: translateX(-50%);
-    border: 6px solid transparent; border-top-color: var(--marrom);
-    opacity: 0; transition: opacity .15s ease; z-index:10;
-  }
-  .menu button:hover::after, .menu button:hover::before { opacity: 1; }
+
+  .menu button:hover::after { opacity: 1; }
 
   .top-right {
     position: absolute;
     right: 12px;
   }
+
   .pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 12px; font-size: 13px;
-    background: #fff; border: 1px solid #ccc;
-    border-radius: 999px; cursor: pointer;
-    transition: background-color .2s ease, box-shadow .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    cursor: pointer;
   }
-  .pill:hover { background: #ddd; box-shadow: 0 6px 16px rgba(0,0,0,.1); }
-  .pill .dot { width: 8px; height: 8px; border-radius: 50%; background:var(--marrom); }
 
-  .popover {
-    position: absolute; right: 0; top: calc(100% + 10px);
-    width: min(460px, 92vw);
-    background: #fff; border: 1px solid #d4d0cb; border-radius: 12px;
-    box-shadow: 0 12px 28px rgba(0,0,0,.18);
-    padding: 14px 16px; color: var(--marrom);
-    opacity: 0; pointer-events: none; transform: translateY(-6px);
-    transition: opacity .18s ease, transform .18s ease; z-index: 50;
+  .main {
+    flex: 1;
+    display: block;
   }
-  .top-right:hover .popover { opacity: 1; pointer-events: auto; transform: translateY(0); }
-  .popover h4 { margin: 6px 0 4px; font-size: 13px; }
-  .popover ul { margin: 0 0 10px 18px; font-size: 12px; }
-  .popover li { margin-bottom: 4px; line-height: 1.3; }
 
-  .main { flex: 1; display: block; }
   #intro { text-align:center; padding: 20px; color: var(--marrom); }
-  iframe { width: 100%; height: 88vh; border: none; display: none; }
+
+  iframe {
+    width: 100%;
+    height: 88vh;
+    border: none;
+    display: none;
+  }
 </style>
+
 <script>
   const senhaPortal = prompt("Digite a senha para acessar o sistema:");
   if (senhaPortal !== "carmel123") {
     alert("Acesso negado.");
     window.location.href = "https://www.google.com";
   }
+
   function carregarRelatorio(url) {
     const intro = document.getElementById('intro');
     const frame = document.getElementById('relatorio');
-    if (intro) intro.style.display = 'none';
+    intro.style.display = 'none';
     frame.style.display = 'block';
     frame.src = url;
     frame.scrollIntoView({behavior:'smooth', block:'start'});
   }
+
   function abrirReviewPro() {
     carregarRelatorio("https://app.powerbi.com/view?r=eyJrIjoiNWUxNWI4NGUtZDlmYy00ODczLWE5NTctMWQ0ZjI4MjdmNTIyIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9");
   }
 </script>
 </head>
+
 <body>
-  <header>
-    <img class="logo" alt="Logo Carmel Hotéis" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png"/>
-    <h1 class="title">Sistema de Gestão Integrado</h1>
-  </header>
 
-  <div class="topbar">
-    <div class="menu">
-      <button data-tip="Auditoria Mensal de Qualidade dos Setores"
-        onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Programa 5S
-      </button>
-      <button data-tip="Programa de Ideias Corporativo"
-        onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Colaborar + Carmel
-      </button>
-      <button data-tip="Relatório de Doações Realizadas"
-        onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Gestão de Resíduos
-      </button>
-      <button data-tip="Sistema de Gestão de Documentos"
-        onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Qualyteam - Módulo DOC
-      </button>
+<header>
+  <img class="logo" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png"/>
+  <h1 class="title">Sistema de Gestão Integrado</h1>
+</header>
 
-      <!-- NOVO BOTÃO -->
-      <button data-tip="Gestão de Não Conformidades"
-        onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiYTY1NWVhNmUtZmNhZi00ZDRlLWI2NmUtMjFkZjNiZjcyNmU0IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Qualyteam - Módulo TOOLS
-      </button>
-      <!-- FIM NOVO BOTÃO -->
+<!-- ZONA INVISÍVEL QUE ATIVA O MENU -->
+<div id="hover-zone"></div>
 
-      <button data-tip="Sistema de Avaliações" onclick="abrirReviewPro()">
-        Review Pro
-      </button>
-      <button data-tip="Resultado Mensal dos Setores"
-        onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOGFhNjZkYTUtNTk3ZS00NGY5LWI1ZDItODUyOWRmYmNhOTVlIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Indicadores Operacionais
-      </button>
-    </div>
+<!-- MENU SUSPENSO -->
+<div class="topbar">
+  <div class="menu">
 
-    <div class="top-right">
-      <button class="pill info-btn" aria-label="Diretrizes">
-        <span class="dot"></span> Diretrizes
-      </button>
-      <div class="popover" role="dialog" aria-label="Diretrizes">
-        <h4><strong>Missão</strong></h4>
-        <ul><li>Proporcionar sensações, emoções &amp; boas lembranças.</li></ul>
-        <hr/>
-        <h4><strong>Visão</strong></h4>
-        <ul><li>Ser a grife mais desejada da hotelaria nacional.</li></ul>
-        <hr/>
-        <h4><strong>Valores</strong></h4>
-        <ul>
-          <li>Relacionamentos com Ética</li>
-          <li>Ser Parte da Solução</li>
-          <li>Mão na Massa</li>
-          <li>Paixão por Servir</li>
-          <li>Responsabilidade Socioambiental</li>
-        </ul>
-        <hr/>
-        <h4><strong>Propósito</strong></h4>
-        <ul><li>Existimos para receber, encantar &amp; surpreender.</li></ul>
-      </div>
-    </div>
+    <!-- 1. Gestão de Documentos -->
+    <button data-tip="Gestão de Documentos"
+      onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+      Gestão de Documentos
+    </button>
+
+    <!-- 2. Gestão de Não Conformidade -->
+    <button data-tip="Gestão de Não Conformidade"
+      onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiYTY1NWVhNmUtZmNhZi00ZDRlLWI2NmUtMjFkZjNiZjcyNmU0IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+      Gestão de Não Conformidade
+    </button>
+
+    <!-- 3. Gestão de Indicadores -->
+    <button data-tip="Gestão de Indicadores"
+      onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOGFhNjZkYTUtNTk3ZS00NGY5LWI1ZDItODUyOWRmYmNhOTVlIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+      Gestão de Indicadores
+    </button>
+
+    <!-- 4. 5s -->
+    <button data-tip="5s"
+      onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+      5s
+    </button>
+
+    <!-- 5. Colaborar + Carmel -->
+    <button data-tip="Colaborar + Carmel"
+      onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+      Colaborar + Carmel
+    </button>
+
+    <!-- 6. Gestão de Resíduos -->
+    <button data-tip="Gestão de Resíduos"
+      onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+      Gestão de Resíduos
+    </button>
+
+    <!-- 7. Avaliações Hóspedes -->
+    <button data-tip="Avaliações Hóspedes"
+      onclick="abrirReviewPro()">
+      Avaliações Hóspedes
+    </button>
+
+  </div>
+</div>
+
+<div class="main">
+  <div id="intro">
+    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height:84px; margin-bottom:14px;"/>
+    <p>Passe o mouse no topo para visualizar o menu.</p>
   </div>
 
-  <div class="main">
-    <div id="intro">
-      <img alt="Logo Carmel Hotéis" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height:84px; margin-bottom:14px;"/>
-      <p style="font-size:16px; margin:0;">Passe o mouse sobre os botões para ver as descrições. Clique para abrir o relatório.</p>
-    </div>
-    <iframe id="relatorio" src=""></iframe>
-  </div>
+  <iframe id="relatorio" src=""></iframe>
+</div>
+
 </body>
 </html>
+
 
