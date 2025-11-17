@@ -10,12 +10,13 @@
   :root{
     --marrom:#4B2E2B;
     --cinza:#e8e6e4;
+    --areia:#f7f5f2;
   }
 
   body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f7f5f2;
+    background-color: var(--areia);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -34,7 +35,7 @@
   .logo { position: absolute; left: 16px; height: 42px; }
   .title { font-size: 20px; margin: 0; text-align: center; }
 
-  /* BOTÃO FLUTUANTE MENU (para reabrir o menu de cima) */
+  /* BOTÃO FLUTUANTE MENU */
   #menu-button {
     position: fixed;
     top: 12px;
@@ -53,7 +54,7 @@
   }
   #menu-button:hover { background: #3e2624; }
 
-  /* MENU SUPERIOR (fica invisível na tela inicial) */
+  /* MENU SUPERIOR */
   .topbar {
     position: fixed;
     top: 0;
@@ -77,8 +78,7 @@
     gap: 6px;
   }
 
-  .menu button,
-  .center-menu button {
+  .menu button {
     position: relative;
     padding: 6px 12px;
     font-size: 13px;
@@ -89,14 +89,12 @@
     transition: background-color .2s ease, box-shadow .2s ease, transform .1s ease;
   }
 
-  .menu button:hover,
-  .center-menu button:hover {
+  .menu button:hover {
     background: #ddd;
     box-shadow: 0 6px 16px rgba(0,0,0,.1);
     transform: translateY(-1px);
   }
 
-  /* Tooltips dos botões do topo */
   .menu button::after {
     content: attr(data-tip);
     position: absolute;
@@ -117,29 +115,85 @@
   }
   .menu button:hover::after { opacity: 1; }
 
-  /* BLOCO CENTRAL DE BOTÕES (tela inicial) */
-  #home-menu {
-    margin-top: 70px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .center-menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    max-width: 900px;
-  }
-
-  .center-menu button {
-    padding: 10px 20px;
-    font-size: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  }
-
   .main { flex: 1; display: block; }
-  #intro { text-align:center; padding: 20px; color: var(--marrom); }
+
+  #intro {
+    text-align:center;
+    padding: 24px 20px 8px;
+    color: var(--marrom);
+  }
+
+  /* ===== CARDS CENTRAIS (TELA INICIAL) ===== */
+  #home-menu {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 30px;
+  }
+
+  .cards-grid {
+    max-width: 1100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px 18px 16px;
+    border: 1px solid #e0d9d0;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.10);
+    border-color: #d0c3b5;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #f0e7dd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--marrom);
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--marrom);
+  }
+
+  .card-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #8b7a6a;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #6a5a4d;
+    line-height: 1.4;
+  }
 
   iframe {
     width: 100%;
@@ -185,7 +239,7 @@
     iniciarTimerMenu();
   }
 
-  /* ======= ABRIR RELATÓRIOS DO MENU SUPERIOR ======= */
+  /* ======= ABRIR RELATÓRIOS PELO MENU SUPERIOR ======= */
   function carregarRelatorio(url) {
     const intro = document.getElementById('intro');
     const frame = document.getElementById('relatorio');
@@ -207,7 +261,7 @@
     );
   }
 
-  /* ======= ABRIR RELATÓRIOS A PARTIR DO MENU CENTRAL (INICIAL) ======= */
+  /* ======= ABRIR RELATÓRIOS PELOS CARDS INICIAIS ======= */
   function abrirRelatorioInicial(url) {
     const intro = document.getElementById('intro');
     const frame = document.getElementById('relatorio');
@@ -219,9 +273,8 @@
     frame.style.display = 'block';
     frame.src = url;
 
-    // Mostra o menu superior apenas depois do primeiro clique
+    // Só mostra o menu superior depois da primeira escolha
     mostrarMenu();
-
     frame.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -240,96 +293,144 @@
   <h1 class="title">Sistema de Gestão Integrado</h1>
 </header>
 
-<!-- BOTÃO MENU FLUTUANTE (reabre o menu de cima) -->
+<!-- BOTÃO MENU FLUTUANTE (reabrir menu topo) -->
 <button id="menu-button" onclick="mostrarMenu()">☰ Menu</button>
 
-<!-- MENU SUPERIOR (aparece só depois que abrir o primeiro relatório) -->
+<!-- MENU SUPERIOR (some até abrir o primeiro relatório) -->
 <div class="topbar">
   <div class="menu">
-
-    <!-- 1. Gestão de Documentos -->
     <button data-tip="Gestão de Documentos"
       onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
       Gestão de Documentos
     </button>
-
-    <!-- 2. Gestão de Não Conformidade -->
     <button data-tip="Gestão de Não Conformidade"
       onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiYTY1NWVhNmUtZmNhZi00ZDRlLWI2NmUtMjFkZjNiZjcyNmU0IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
       Gestão de Não Conformidade
     </button>
-
-    <!-- 3. Gestão de Indicadores -->
     <button data-tip="Gestão de Indicadores"
       onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOGFhNjZkYTUtNTk3ZS00NGY5LWI1ZDItODUyOWRmYmNhOTVlIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
       Gestão de Indicadores
     </button>
-
-    <!-- 4. Gestão de Resíduos -->
     <button data-tip="Gestão de Resíduos"
       onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
       Gestão de Resíduos
     </button>
-
-    <!-- 5. 5s -->
     <button data-tip="5s"
       onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
       5s
     </button>
-
-    <!-- 6. Colaborar + Carmel -->
     <button data-tip="Colaborar + Carmel"
       onclick="carregarRelatorio('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
       Colaborar + Carmel
     </button>
-
-    <!-- 7. Avaliações Hóspedes -->
     <button data-tip="Avaliações Hóspedes"
       onclick="abrirReviewPro()">
       Avaliações Hóspedes
     </button>
-
   </div>
 </div>
 
 <div class="main">
   <div id="intro">
-    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height:84px; margin-bottom:14px;" alt="Carmel Hotéis"/>
-    <p>Clique em um relatório para iniciar.</p>
+    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png"
+         style="height:84px; margin-bottom:10px;" alt="Carmel Hotéis"/>
+    <p style="margin:0;font-size:15px;">Escolha um painel para iniciar a navegação.</p>
   </div>
 
-  <!-- MENU CENTRAL VISUAL (TELA INICIAL) -->
+  <!-- CARDS CENTRAIS COM “CARINHA CARMEL” -->
   <div id="home-menu">
-    <div class="center-menu">
+    <div class="cards-grid">
 
-      <!-- mesmos 7 botões, mas chamando abrirRelatorioInicial -->
-      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Gestão de Documentos
-      </button>
+      <div class="card" onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        <div class="card-header">
+          <div class="card-icon">DOC</div>
+          <div>
+            <div class="card-tag">Qualyteam</div>
+            <div class="card-title">Gestão de Documentos</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Acompanhe o status de revisão, aprovação e vigência dos POPs e documentos do SGQ.
+        </div>
+      </div>
 
-      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiYTY1NWVhNmUtZmNhZi00ZDRlLWI2NmUtMjFkZjNiZjcyNmU0IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Gestão de Não Conformidade
-      </button>
+      <div class="card" onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiYTY1NWVhNmUtZmNhZi00ZDRlLWI2NmUtMjFkZjNiZjcyNmU0IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        <div class="card-header">
+          <div class="card-icon">NC</div>
+          <div>
+            <div class="card-tag">Qualyteam</div>
+            <div class="card-title">Gestão de Não Conformidade</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Visualize abertura, prazos e tratativas das não conformidades por setor e por causa raiz.
+        </div>
+      </div>
 
-      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOGFhNjZkYTUtNTk3ZS00NGY5LWI1ZDItODUyOWRmYmNhOTVlIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Gestão de Indicadores
-      </button>
+      <div class="card" onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOGFhNjZkYTUtNTk3ZS00NGY5LWI1ZDItODUyOWRmYmNhOTVlIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        <div class="card-header">
+          <div class="card-icon">KPIs</div>
+          <div>
+            <div class="card-tag">Operação</div>
+            <div class="card-title">Gestão de Indicadores</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Painel consolidado de indicadores operacionais por resort, área e período.
+        </div>
+      </div>
 
-      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Gestão de Resíduos
-      </button>
+      <div class="card" onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        <div class="card-header">
+          <div class="card-icon">♻</div>
+          <div>
+            <div class="card-tag">Sustentabilidade</div>
+            <div class="card-title">Gestão de Resíduos</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Controle de volumes destinados, doações e indicadores ambientais por resort.
+        </div>
+      </div>
 
-      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        5s
-      </button>
+      <div class="card" onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        <div class="card-header">
+          <div class="card-icon">5S</div>
+          <div>
+            <div class="card-tag">Qualidade</div>
+            <div class="card-title">5s</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Resultado das auditorias de 5S por área, com evolução mensal e ranking de setores.
+        </div>
+      </div>
 
-      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
-        Colaborar + Carmel
-      </button>
+      <div class="card" onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        <div class="card-header">
+          <div class="card-icon">💡</div>
+          <div>
+            <div class="card-tag">Engajamento</div>
+            <div class="card-title">Colaborar + Carmel</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Acompanhe ideias enviadas, aprovadas e implementadas no programa Colaborar + Carmel.
+        </div>
+      </div>
 
-      <button onclick="abrirReviewProInicial()">
-        Avaliações Hóspedes
-      </button>
+      <div class="card" onclick="abrirReviewProInicial()">
+        <div class="card-header">
+          <div class="card-icon">★</div>
+          <div>
+            <div class="card-tag">Experiência do Hóspede</div>
+            <div class="card-title">Avaliações Hóspedes</div>
+          </div>
+        </div>
+        <div class="card-desc">
+          Visão consolidada das avaliações dos hóspedes por resort, canal e tema principal.
+        </div>
+      </div>
 
     </div>
   </div>
