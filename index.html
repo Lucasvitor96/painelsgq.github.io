@@ -254,7 +254,7 @@
     frame.style.display = 'block';
     frame.src = url;
 
-    esconderMenu();
+    esconderMenu(); // depois que escolhe no menu, some
     frame.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -269,17 +269,17 @@
     const intro = document.getElementById('intro');
     const frame = document.getElementById('relatorio');
     const homeMenu = document.getElementById('home-menu');
+    const btnMenu = document.getElementById('menu-button');
 
     if (homeMenu) homeMenu.style.display = 'none';
     if (intro) intro.style.display = 'none';
 
-    // Mostra o menu superior (com animação) e inicia timer
-    mostrarMenu();
+    // Menu continua escondido; só mostramos o botão ☰ Menu
+    btnMenu.style.display = 'block';
 
     frame.style.display = 'block';
     frame.src = url;
 
-    // Pequeno delay para garantir que layout atualizou antes do scroll
     setTimeout(() => {
       frame.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 80);
@@ -300,10 +300,10 @@
   <h1 class="title">Sistema de Gestão Integrado</h1>
 </header>
 
-<!-- BOTÃO MENU FLUTUANTE -->
+<!-- BOTÃO MENU FLUTUANTE (abre o menu superior sob demanda) -->
 <button id="menu-button" onclick="mostrarMenu()">☰ Menu</button>
 
-<!-- MENU SUPERIOR (aparece só depois que abrir o primeiro relatório ou ao clicar em ☰ Menu) -->
+<!-- MENU SUPERIOR (só aparece quando clicar em ☰ Menu ou trocar de painel) -->
 <div class="topbar">
   <div class="menu">
     <button data-tip="Gestão de Documentos"
@@ -357,7 +357,7 @@
           </div>
         </div>
         <div class="card-desc">
-          Acompanhe a elaboração, revisão e aprovação de documentos.
+          Acompanhe a elaboração, revisão e aprovação de documentos do SGQ.
         </div>
       </div>
 
@@ -447,3 +447,4 @@
 
 </body>
 </html>
+
