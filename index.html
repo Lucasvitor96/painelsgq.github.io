@@ -34,7 +34,7 @@
   .logo { position: absolute; left: 16px; height: 42px; }
   .title { font-size: 20px; margin: 0; text-align: center; }
 
-  /* BOTÃO FLUTUANTE MENU */
+  /* BOTÃO FLUTUANTE MENU (para reabrir o menu de cima) */
   #menu-button {
     position: fixed;
     top: 12px;
@@ -53,7 +53,7 @@
   }
   #menu-button:hover { background: #3e2624; }
 
-  /* MENU SUPERIOR */
+  /* MENU SUPERIOR (fica invisível na tela inicial) */
   .topbar {
     position: fixed;
     top: 0;
@@ -65,7 +65,8 @@
     justify-content: center;
     align-items: center;
     z-index: 150;
-    opacity: 1;
+    opacity: 0;
+    pointer-events: none;
     transition: opacity .35s ease;
   }
 
@@ -76,7 +77,8 @@
     gap: 6px;
   }
 
-  .menu button {
+  .menu button,
+  .center-menu button {
     position: relative;
     padding: 6px 12px;
     font-size: 13px;
@@ -84,14 +86,17 @@
     border: 1px solid #ccc;
     border-radius: 999px;
     cursor: pointer;
-    transition: background-color .2s ease, box-shadow .2s ease;
+    transition: background-color .2s ease, box-shadow .2s ease, transform .1s ease;
   }
 
-  .menu button:hover {
+  .menu button:hover,
+  .center-menu button:hover {
     background: #ddd;
     box-shadow: 0 6px 16px rgba(0,0,0,.1);
+    transform: translateY(-1px);
   }
 
+  /* Tooltips dos botões do topo */
   .menu button::after {
     content: attr(data-tip);
     position: absolute;
@@ -103,13 +108,35 @@
     padding: 6px 8px;
     border-radius: 8px;
     font-size: 12px;
+    white-space: nowrap;
     opacity: 0;
     pointer-events: none;
     transition: opacity .15s ease;
-    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(0,0,0,.2);
     z-index: 10;
   }
   .menu button:hover::after { opacity: 1; }
+
+  /* BLOCO CENTRAL DE BOTÕES (tela inicial) */
+  #home-menu {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .center-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 900px;
+  }
+
+  .center-menu button {
+    padding: 10px 20px;
+    font-size: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  }
 
   .main { flex: 1; display: block; }
   #intro { text-align:center; padding: 20px; color: var(--marrom); }
@@ -122,7 +149,6 @@
   }
 </style>
 
-
 <script>
   /* ======= SENHA ======= */
   const senhaPortal = prompt("Digite a senha para acessar o sistema:");
@@ -131,44 +157,76 @@
     window.location.href = "https://www.google.com";
   }
 
-  /* ======= TIMER DO MENU ======= */
+  /* ======= TIMER DO MENU SUPERIOR ======= */
   let timerMenu;
 
   function iniciarTimerMenu() {
     clearTimeout(timerMenu);
-
     timerMenu = setTimeout(() => {
       esconderMenu();
     }, 10000); // 10 segundos
   }
 
   function esconderMenu() {
-    document.querySelector('.topbar').style.opacity = '0';
-    document.getElementById('menu-button').style.display = 'block';
+    const topbar = document.querySelector('.topbar');
+    const btnMenu = document.getElementById('menu-button');
+    topbar.style.opacity = '0';
+    topbar.style.pointerEvents = 'none';
+    btnMenu.style.display = 'block';
     clearTimeout(timerMenu);
   }
 
   function mostrarMenu() {
-    document.querySelector('.topbar').style.opacity = '1';
-    document.getElementById('menu-button').style.display = 'none';
+    const topbar = document.querySelector('.topbar');
+    const btnMenu = document.getElementById('menu-button');
+    topbar.style.opacity = '1';
+    topbar.style.pointerEvents = 'auto';
+    btnMenu.style.display = 'none';
     iniciarTimerMenu();
   }
 
-  /* ======= ABRIR RELATÓRIOS ======= */
+  /* ======= ABRIR RELATÓRIOS DO MENU SUPERIOR ======= */
   function carregarRelatorio(url) {
     const intro = document.getElementById('intro');
     const frame = document.getElementById('relatorio');
+    const homeMenu = document.getElementById('home-menu');
 
-    intro.style.display = 'none';
+    if (homeMenu) homeMenu.style.display = 'none';
+    if (intro) intro.style.display = 'none';
+
     frame.style.display = 'block';
     frame.src = url;
 
-    esconderMenu();  
+    esconderMenu();
     frame.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function abrirReviewPro() {
     carregarRelatorio(
+      "https://app.powerbi.com/view?r=eyJrIjoiNWUxNWI4NGUtZDlmYy00ODczLWE5NTctMWQ0ZjI4MjdmNTIyIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9"
+    );
+  }
+
+  /* ======= ABRIR RELATÓRIOS A PARTIR DO MENU CENTRAL (INICIAL) ======= */
+  function abrirRelatorioInicial(url) {
+    const intro = document.getElementById('intro');
+    const frame = document.getElementById('relatorio');
+    const homeMenu = document.getElementById('home-menu');
+
+    if (homeMenu) homeMenu.style.display = 'none';
+    if (intro) intro.style.display = 'none';
+
+    frame.style.display = 'block';
+    frame.src = url;
+
+    // Mostra o menu superior apenas depois do primeiro clique
+    mostrarMenu();
+
+    frame.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function abrirReviewProInicial() {
+    abrirRelatorioInicial(
       "https://app.powerbi.com/view?r=eyJrIjoiNWUxNWI4NGUtZDlmYy00ODczLWE5NTctMWQ0ZjI4MjdmNTIyIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9"
     );
   }
@@ -178,14 +236,14 @@
 <body>
 
 <header>
-  <img class="logo" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png"/>
+  <img class="logo" src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png" alt="Carmel Hotéis"/>
   <h1 class="title">Sistema de Gestão Integrado</h1>
 </header>
 
-<!-- BOTÃO MENU FLUTUANTE -->
+<!-- BOTÃO MENU FLUTUANTE (reabre o menu de cima) -->
 <button id="menu-button" onclick="mostrarMenu()">☰ Menu</button>
 
-<!-- MENU SUPERIOR -->
+<!-- MENU SUPERIOR (aparece só depois que abrir o primeiro relatório) -->
 <div class="topbar">
   <div class="menu">
 
@@ -236,8 +294,44 @@
 
 <div class="main">
   <div id="intro">
-    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height:84px; margin-bottom:14px;"/>
+    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/Carmel%20Hoteis.png" style="height:84px; margin-bottom:14px;" alt="Carmel Hotéis"/>
     <p>Clique em um relatório para iniciar.</p>
+  </div>
+
+  <!-- MENU CENTRAL VISUAL (TELA INICIAL) -->
+  <div id="home-menu">
+    <div class="center-menu">
+
+      <!-- mesmos 7 botões, mas chamando abrirRelatorioInicial -->
+      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOTE3YjVhOGEtNjRjZS00MTdiLWE0YmQtYTI1NzA2N2E0NzJmIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        Gestão de Documentos
+      </button>
+
+      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiYTY1NWVhNmUtZmNhZi00ZDRlLWI2NmUtMjFkZjNiZjcyNmU0IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        Gestão de Não Conformidade
+      </button>
+
+      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOGFhNjZkYTUtNTk3ZS00NGY5LWI1ZDItODUyOWRmYmNhOTVlIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        Gestão de Indicadores
+      </button>
+
+      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiZTVkM2NkMDQtMDE4Yi00MzJkLTkzMjEtNzhhNTljYjIzYzRkIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        Gestão de Resíduos
+      </button>
+
+      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiOWQ3N2ViY2MtMzA1ZC00ZmYxLWJjOWUtMTE5ZTUxNjQwZmQxIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        5s
+      </button>
+
+      <button onclick="abrirRelatorioInicial('https://app.powerbi.com/view?r=eyJrIjoiNTllZjdjYzEtYjE0Zi00MzUyLThkYmUtNTBlNmQyNmU1ZmIwIiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9')">
+        Colaborar + Carmel
+      </button>
+
+      <button onclick="abrirReviewProInicial()">
+        Avaliações Hóspedes
+      </button>
+
+    </div>
   </div>
 
   <iframe id="relatorio" src=""></iframe>
