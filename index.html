@@ -65,8 +65,8 @@
     justify-content: center;
     align-items: center;
     z-index: 150;
-    transition: opacity .35s ease;
     opacity: 1;
+    transition: opacity .35s ease;
   }
 
   .menu {
@@ -92,7 +92,6 @@
     box-shadow: 0 6px 16px rgba(0,0,0,.1);
   }
 
-  /* Tooltip */
   .menu button::after {
     content: attr(data-tip);
     position: absolute;
@@ -104,11 +103,10 @@
     padding: 6px 8px;
     border-radius: 8px;
     font-size: 12px;
-    white-space: nowrap;
     opacity: 0;
     pointer-events: none;
     transition: opacity .15s ease;
-    box-shadow: 0 6px 20px rgba(0,0,0,.2);
+    white-space: nowrap;
     z-index: 10;
   }
   .menu button:hover::after { opacity: 1; }
@@ -124,26 +122,39 @@
   }
 </style>
 
+
 <script>
-  /* SENHA */
+  /* ======= SENHA ======= */
   const senhaPortal = prompt("Digite a senha para acessar o sistema:");
   if (senhaPortal !== "carmel123") {
     alert("Acesso negado.");
     window.location.href = "https://www.google.com";
   }
 
-  /* MOSTRAR / ESCONDER MENU */
+  /* ======= TIMER DO MENU ======= */
+  let timerMenu;
+
+  function iniciarTimerMenu() {
+    clearTimeout(timerMenu);
+
+    timerMenu = setTimeout(() => {
+      esconderMenu();
+    }, 10000); // 10 segundos
+  }
+
   function esconderMenu() {
     document.querySelector('.topbar').style.opacity = '0';
     document.getElementById('menu-button').style.display = 'block';
+    clearTimeout(timerMenu);
   }
 
   function mostrarMenu() {
     document.querySelector('.topbar').style.opacity = '1';
     document.getElementById('menu-button').style.display = 'none';
+    iniciarTimerMenu();
   }
 
-  /* ABRIR RELATÓRIOS */
+  /* ======= ABRIR RELATÓRIOS ======= */
   function carregarRelatorio(url) {
     const intro = document.getElementById('intro');
     const frame = document.getElementById('relatorio');
@@ -152,7 +163,7 @@
     frame.style.display = 'block';
     frame.src = url;
 
-    esconderMenu();
+    esconderMenu();  
     frame.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -174,7 +185,7 @@
 <!-- BOTÃO MENU FLUTUANTE -->
 <button id="menu-button" onclick="mostrarMenu()">☰ Menu</button>
 
-<!-- MENU SUPERIOR COM A NOVA ORDEM -->
+<!-- MENU SUPERIOR -->
 <div class="topbar">
   <div class="menu">
 
@@ -234,6 +245,3 @@
 
 </body>
 </html>
-
-
-
