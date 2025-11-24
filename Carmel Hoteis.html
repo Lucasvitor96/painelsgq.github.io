@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatórios Integrados</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --marrom-escuro:#4C3427;
+      --marrom:#9F9385;
+      --bege:#DBD4CA;
+      --offwhite:#E8E7E1;
+      --bege-claro:#E7D0A7;
+      --preto:#1D1D1B;
+    }
+
+    body {
+      font-family:"Montserrat", Arial, sans-serif;
+      color:var(--offwhite);
+      background:var(--offwhite);
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    #bg-video {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      z-index:-2;
+    }
+
+    #overlay {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(76,52,39,0.55);
+      z-index:-1;
+    }
+
+    header {
+      width:100%;
+      padding:14px 36px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      backdrop-filter:blur(8px);
+      background:rgba(76,52,39,0.75);
+      border-bottom:1px solid rgba(255,255,255,0.12);
+      position:fixed;
+      top:0; left:0;
+      z-index:20;
+    }
+
+    .logo { height:50px; }
+
+    nav { display:flex; align-items:center; gap:24px; font-size:13px; text-transform:uppercase; letter-spacing:0.10em; }
+
+    nav a, .nav-link {
+      text-decoration:none; color:var(--offwhite); cursor:pointer; transition:0.25s;
+    }
+
+    nav a:hover, .nav-link:hover { opacity:0.8; }
+
+    .dropdown { position:relative; display:inline-block; }
+
+    .dropdown-menu {
+      position:absolute; right:0; top:120%; min-width:190px;
+      background:rgba(232,231,225,0.98); border-radius:10px;
+      box-shadow:0 10px 28px rgba(0,0,0,0.35);
+      padding:6px 0; display:none; z-index:30;
+    }
+
+    .dropdown-menu.show { display:block; }
+
+    .dropdown-menu a {
+      display:block; padding:8px 16px; font-size:12px;
+      color:#3b2b1f; text-decoration:none; letter-spacing:0.08em;
+    }
+    .dropdown-menu a:hover { background:#f5f2ec; }
+
+    .hero {
+      margin-top:120px; min-height:65vh;
+      padding:40px 20px 60px;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      text-align:center;
+    }
+
+    .hero-title { font-size:34px; font-weight:300; margin-bottom:8px; }
+    .hero-sub { font-size:15px; max-width:520px; opacity:0.9; }
+
+    .report-focus {
+      width:100%; min-height:100vh;
+      padding-top:110px; padding-bottom:0;
+      background:transparent; display:none;
+    }
+    .report-focus.visible { display:block; }
+
+    .report-title-box { padding:0 16px; margin-bottom:6px; }
+    .report-title {
+      font-size:14px; background:rgba(0,0,0,0.45);
+      padding:4px 14px; border-radius:999px; display:inline-block;
+    }
+
+    #relatorio {
+      width:100%;
+      height:calc(100vh - 120px);
+      border:none;
+      background:white;
+    }
+  </style>
+
+  <script>
+    function toggleDropdown(event) {
+      event.stopPropagation();
+      const menu = document.getElementById("dropdown-menu");
+      menu.classList.toggle("show");
+    }
+
+    function closeDropdown() {
+      document.getElementById("dropdown-menu").classList.remove("show");
+    }
+
+    window.addEventListener("click", closeDropdown);
+
+    function hideReport() {
+      const reportSection = document.getElementById("report-focus");
+      const iframe = document.getElementById("relatorio");
+      reportSection.classList.remove("visible");
+      iframe.src = "";
+      closeDropdown();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function selecionarRelatorio(id, event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const reportSection = document.getElementById("report-focus");
+      const iframe = document.getElementById("relatorio");
+      const title = document.getElementById("report-title-text");
+
+      if (id === "glpi") {
+        title.textContent = "Relatório GLPI";
+        iframe.src =
+"https://app.powerbi.com/view?r=eyJrIjoiMDk1OTgwNmMtZmI0My00MGJiLWI0NGMtMmI3ZmUyMTdjZDA3IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9";
+      }
+
+      reportSection.classList.add("visible");
+      closeDropdown();
+      reportSection.scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+
+</head>
+<body>
+
+  <video autoplay muted loop id="bg-video">
+    <source src="https://github.com/Lucasvitor96/painelsgq.github.io/raw/main/Video%20Project%20(1).mp4" type="video/mp4">
+  </video>
+  <div id="overlay"></div>
+
+  <header>
+    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png" class="logo">
+
+    <nav>
+      <a onclick="hideReport()">Início</a>
+
+      <div class="dropdown" onclick="event.stopPropagation();">
+        <span class="nav-link" onclick="toggleDropdown(event)">Relatórios ▾</span>
+        <div class="dropdown-menu" id="dropdown-menu">
+          <a href="#" onclick="selecionarRelatorio('glpi', event)">Relatório GLPI</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    <h1 class="hero-title">Visão estratégica em um só lugar</h1>
+    <p class="hero-sub">
+      Uma página exclusiva com acesso integrado aos principais relatórios,
+      reunindo informações essenciais para apoio à gestão e ao acompanhamento contínuo.
+    </p>
+  </section>
+
+  <section class="report-focus" id="report-focus">
+    <div class="report-title-box">
+      <span class="report-title" id="report-title-text">Relatório GLPI</span>
+    </div>
+
+    <iframe id="relatorio" src=""></iframe>
+  </section>
+
+</body>
+</html>
