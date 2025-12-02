@@ -276,11 +276,8 @@
     <iframe id="relatorio" src=""></iframe>
   </section>
 
-  <!-- MSAL JS -->
-  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
-
-  <!-- LÓGICA DO SITE + AUTENTICAÇÃO MICROSOFT -->
-  <script>
+  <!-- LÓGICA DO SITE + FIREBASE (MÓDULO) -->
+  <script type="module">
     // ----------------------------------------
     // 1) CONFIGURAÇÃO DOS RELATÓRIOS
     // ----------------------------------------
@@ -350,11 +347,54 @@
     window.selecionarRelatorio = selecionarRelatorio;
 
     // ----------------------------------------
-    // 3) CONTROLE DE ACESSO POR E-MAIL (sempre minúsculo)
+    // 3) FIREBASE + MICROSOFT AUTH
+    // ----------------------------------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      OAuthProvider,
+      signInWithPopup,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+    // Config do seu projeto Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9En3-4c5Q-odi5_GteiENLm91uhZTGxo",
+      authDomain: "carmelhoteis.firebaseapp.com",
+      projectId: "carmelhoteis",
+      storageBucket: "carmelhoteis.firebasestorage.app",
+      messagingSenderId: "119350051754",
+      appId: "1:119350051754:web:b2a873e386b920407161d3",
+      measurementId: "G-DP7BJCQSJ7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Provider MICROSOFT
+    const provider = new OAuthProvider("microsoft.com");
+
+    // Parâmetros extras (tudo opcional, mas ajuda)
+    provider.setCustomParameters({
+      prompt: "select_account"
+      // se quiser travar em um tenant específico, descomenta:
+      // tenant: "048b3ab4-c815-436f-834d-56967347c24d"
+    });
+
+    // Alguns escopos úteis
+    provider.addScope("email");
+    provider.addScope("openid");
+    provider.addScope("profile");
+    provider.addScope("User.Read");
+
+    // ----------------------------------------
+    // 4) CONTROLE DE ACESSO POR E-MAIL (sempre minúsculo)
     // ----------------------------------------
     const ACCESS_CONFIG = {
       "ti@hoteiscarmel.onmicrosoft.com": ["glpi_op", "glpi_ger"]
-      // "outro.usuario@hoteiscarmel.onmicrosoft.com": ["glpi_op"]
+      // Exemplo para adicionar outro usuário:
+      // "lucas.santos@hoteiscarmel.onmicrosoft.com": ["glpi_op"]
     };
 
     function montarMenuRelatorios(email) {
@@ -387,71 +427,25 @@
     }
 
     // ----------------------------------------
-    // 4) MSAL CONFIG (AUTENTICAÇÃO MICROSOFT)
-    // ----------------------------------------
-    const msalConfig = {
-      auth: {
-        clientId: "795f09ce-a3cf-406c-a50b-f6e8cec38b90", // Application (client) ID
-        authority: "https://login.microsoftonline.com/048b3ab4-c815-436f-834d-56967347c24d", // Directory (tenant) ID
-        redirectUri: "https://lucasvitor96.github.io/painelsgq.github.io/Carmel%20Hoteis.html"
-      },
-      cache: {
-        cacheLocation: "sessionStorage",
-        storeAuthStateInCookie: false
-      }
-    };
-
-    const msalInstance = new msal.PublicClientApplication(msalConfig);
-
-    const loginRequest = {
-      scopes: ["openid", "profile", "email", "User.Read"]
-    };
-
-    // Atualiza interface com base no usuário logado
-    function atualizarUI(account) {
-      const spanUser = document.getElementById("user-info");
-      const btnLogin = document.getElementById("login-btn");
-      const btnLogout = document.getElementById("logout-btn");
-
-      if (account) {
-        const email = (account.username || "").toLowerCase();
-        if (spanUser) spanUser.textContent = email;
-        if (btnLogin) btnLogin.style.display = "none";
-        if (btnLogout) btnLogout.style.display = "inline";
-        montarMenuRelatorios(email);
-      } else {
-        if (spanUser) spanUser.textContent = "";
-        if (btnLogin) btnLogin.style.display = "inline";
-        if (btnLogout) btnLogout.style.display = "none";
-        montarMenuRelatorios("__anon__");
-      }
-    }
-
-    // ----------------------------------------
     // 5) LOGIN / LOGOUT MICROSOFT
     // ----------------------------------------
     async function loginComMicrosoft() {
       try {
-        console.log("Iniciando login Microsoft (MSAL)...");
-        const loginResponse = await msalInstance.loginPopup(loginRequest);
-        const account = loginResponse.account;
-        console.log("Login Microsoft OK:", account);
-        atualizarUI(account);
+        console.log("Iniciando login Microsoft...");
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        console.log("Login Microsoft OK:", user);
+        alert("Logado como: " + (user.email || "(sem e-mail)"));
       } catch (err) {
         console.error("Erro no login Microsoft:", err);
-        alert("Erro ao entrar com Microsoft: " + (err.message || err));
+        alert("Erro ao entrar com Microsoft: " + (err.code || err.message));
       }
     }
     window.loginComMicrosoft = loginComMicrosoft;
 
     async function logout() {
       try {
-        const accounts = msalInstance.getAllAccounts();
-        if (accounts.length > 0) {
-          await msalInstance.logoutPopup({ account: accounts[0] });
-        }
-        atualizarUI(null);
-        hideReport();
+        await signOut(auth);
       } catch (err) {
         console.error(err);
         alert("Erro ao sair.");
@@ -460,27 +454,30 @@
     window.logout = logout;
 
     // ----------------------------------------
-    // 6) INICIALIZAÇÃO AO CARREGAR A PÁGINA
+    // 6) REAGIR À MUDANÇA DE USUÁRIO LOGADO
     // ----------------------------------------
-    msalInstance.handleRedirectPromise()
-      .then((response) => {
-        let account = null;
+    onAuthStateChanged(auth, (user) => {
+      const spanUser = document.getElementById("user-info");
+      const btnLogin = document.getElementById("login-btn");
+      const btnLogout = document.getElementById("logout-btn");
 
-        if (response && response.account) {
-          account = response.account;
-        } else {
-          const currentAccounts = msalInstance.getAllAccounts();
-          if (currentAccounts.length > 0) {
-            account = currentAccounts[0];
-          }
-        }
+      console.log("onAuthStateChanged =>", user);
 
-        atualizarUI(account);
-      })
-      .catch((error) => {
-        console.error("Erro ao processar redirect do MSAL:", error);
-        atualizarUI(null);
-      });
+      if (user) {
+        const email = (user.email || "").toLowerCase();
+        if (spanUser) spanUser.textContent = email;
+        if (btnLogin) btnLogin.style.display = "none";
+        if (btnLogout) btnLogout.style.display = "inline";
+
+        montarMenuRelatorios(email);
+      } else {
+        if (spanUser) spanUser.textContent = "";
+        if (btnLogin) btnLogin.style.display = "inline";
+        if (btnLogout) btnLogout.style.display = "none";
+
+        montarMenuRelatorios("__anon__");
+      }
+    });
   </script>
 </body>
 </html>
