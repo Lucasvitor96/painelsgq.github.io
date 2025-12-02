@@ -354,8 +354,7 @@
     // ----------------------------------------
     const ACCESS_CONFIG = {
       "ti@hoteiscarmel.onmicrosoft.com": ["glpi_op", "glpi_ger"]
-      // Exemplo para adicionar outro usuário:
-      // "lucas.santos@hoteiscarmel.onmicrosoft.com": ["glpi_op"]
+      // "outro.usuario@hoteiscarmel.onmicrosoft.com": ["glpi_op"]
     };
 
     function montarMenuRelatorios(email) {
@@ -392,10 +391,9 @@
     // ----------------------------------------
     const msalConfig = {
       auth: {
-        clientId: "SEU_CLIENT_ID_AQUI", // Application (client) ID
-        authority: "https://login.microsoftonline.com/SEU_TENANT_ID_AQUI", // Directory (tenant) ID
-        // redirectUri: "https://SEU_SITE.com", // se quiser fixo
-        redirectUri: window.location.origin + window.location.pathname
+        clientId: "795f09ce-a3cf-406c-a50b-f6e8cec38b90", // Application (client) ID
+        authority: "https://login.microsoftonline.com/048b3ab4-c815-436f-834d-56967347c24d", // Directory (tenant) ID
+        redirectUri: "https://lucasvitor96.github.io/painelsgq.github.io/Carmel%20Hoteis.html"
       },
       cache: {
         cacheLocation: "sessionStorage",
@@ -420,13 +418,11 @@
         if (spanUser) spanUser.textContent = email;
         if (btnLogin) btnLogin.style.display = "none";
         if (btnLogout) btnLogout.style.display = "inline";
-
         montarMenuRelatorios(email);
       } else {
         if (spanUser) spanUser.textContent = "";
         if (btnLogin) btnLogin.style.display = "inline";
         if (btnLogout) btnLogout.style.display = "none";
-
         montarMenuRelatorios("__anon__");
       }
     }
@@ -466,7 +462,6 @@
     // ----------------------------------------
     // 6) INICIALIZAÇÃO AO CARREGAR A PÁGINA
     // ----------------------------------------
-    // Tenta reaproveitar sessão caso o usuário já tenha logado antes
     msalInstance.handleRedirectPromise()
       .then((response) => {
         let account = null;
