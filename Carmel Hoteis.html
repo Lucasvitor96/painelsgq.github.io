@@ -1,175 +1,250 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Relatórios Integrados</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
-      --marrom-escuro:#4C3427;
-      --marrom:#9F9385;
-      --bege:#DBD4CA;
-      --offwhite:#E8E7E1;
-      --bege-claro:#E7D0A7;
-      --preto:#1D1D1B;
+      --marrom-escuro: #4c3427;
+      --marrom: #9f9385;
+      --bege: #dbd4ca;
+      --offwhite: #e8e7e1;
+      --bege-claro: #e7d0a7;
+      --preto: #1d1d1b;
     }
 
     body {
-      font-family:"Montserrat", Arial, sans-serif;
-      color:var(--offwhite);
-      background:var(--offwhite);
-      overflow-x:hidden;
-      min-height:100vh;
+      font-family: "Montserrat", Arial, sans-serif;
+      color: var(--offwhite);
+      background: var(--offwhite);
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
+    /* VÍDEO DE FUNDO */
     #bg-video {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      z-index:-2;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
     }
 
     #overlay {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background:rgba(76,52,39,0.55);
-      z-index:-1;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(76, 52, 39, 0.55);
+      z-index: -1;
     }
 
+    /* HEADER */
     header {
-      width:100%;
-      padding:14px 36px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      backdrop-filter:blur(8px);
-      background:rgba(76,52,39,0.75);
-      border-bottom:1px solid rgba(255,255,255,0.12);
-      position:fixed;
-      top:0; left:0;
-      z-index:20;
+      width: 100%;
+      padding: 14px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      background: rgba(76, 52, 39, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 20;
     }
 
-    .logo { height:50px; }
-
-    nav { display:flex; align-items:center; gap:24px; font-size:13px; text-transform:uppercase; letter-spacing:0.10em; }
-
-    nav a, .nav-link {
-      text-decoration:none; color:var(--offwhite); cursor:pointer; transition:0.25s;
+    .logo {
+      height: 50px;
     }
 
-    nav a:hover, .nav-link:hover { opacity:0.8; }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
 
-    .dropdown { position:relative; display:inline-block; }
+    nav a,
+    .nav-link,
+    #login-btn,
+    #logout-btn {
+      text-decoration: none;
+      color: var(--offwhite);
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    nav a:hover,
+    .nav-link:hover,
+    #login-btn:hover,
+    #logout-btn:hover {
+      opacity: 0.8;
+    }
+
+    #user-info {
+      font-size: 11px;
+      opacity: 0.8;
+      max-width: 220px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* DROPDOWN RELATÓRIOS */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
 
     .dropdown-menu {
-      position:absolute; right:0; top:120%; min-width:190px;
-      background:rgba(232,231,225,0.98); border-radius:10px;
-      box-shadow:0 10px 28px rgba(0,0,0,0.35);
-      padding:6px 0; display:none; z-index:30;
+      position: absolute;
+      right: 0;
+      top: 120%;
+      min-width: 220px;
+      background: rgba(232, 231, 225, 0.98);
+      border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      padding: 6px 0;
+      display: none;
+      z-index: 30;
     }
 
-    .dropdown-menu.show { display:block; }
-
-    .dropdown-menu a {
-      display:block; padding:8px 16px; font-size:12px;
-      color:#3b2b1f; text-decoration:none; letter-spacing:0.08em;
+    .dropdown-menu.show {
+      display: block;
     }
-    .dropdown-menu a:hover { background:#f5f2ec; }
 
+    .dropdown-menu a,
+    .dropdown-menu span {
+      display: block;
+      padding: 8px 16px;
+      font-size: 12px;
+      color: #3b2b1f;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+    }
+
+    .dropdown-menu a:hover {
+      background: #f5f2ec;
+    }
+
+    /* HERO */
     .hero {
-      margin-top:120px; min-height:65vh;
-      padding:40px 20px 60px;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      text-align:center;
+      margin-top: 120px;
+      min-height: 65vh;
+      padding: 40px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
-    .hero-title { font-size:34px; font-weight:300; margin-bottom:8px; }
-    .hero-sub { font-size:15px; max-width:520px; opacity:0.9; }
+    .hero-title {
+      font-size: 34px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
 
+    .hero-sub {
+      font-size: 15px;
+      max-width: 520px;
+      opacity: 0.9;
+    }
+
+    /* ÁREA DO RELATÓRIO */
     .report-focus {
-      width:100%; min-height:100vh;
-      padding-top:110px; padding-bottom:0;
-      background:transparent; display:none;
+      width: 100%;
+      min-height: 100vh;
+      padding-top: 110px;
+      padding-bottom: 0;
+      background: transparent;
+      display: none;
     }
-    .report-focus.visible { display:block; }
 
-    .report-title-box { padding:0 16px; margin-bottom:6px; }
-    .report-title {
-      font-size:14px; background:rgba(0,0,0,0.45);
-      padding:4px 14px; border-radius:999px; display:inline-block;
+    .report-focus.visible {
+      display: block;
     }
 
     #relatorio {
-      width:100%;
-      height:calc(100vh - 120px);
-      border:none;
-      background:white;
-    }
-  </style>
-
-  <script>
-    function toggleDropdown(event) {
-      event.stopPropagation();
-      const menu = document.getElementById("dropdown-menu");
-      menu.classList.toggle("show");
+      width: 100%;
+      height: calc(100vh - 120px);
+      border: none;
+      background: white;
     }
 
-    function closeDropdown() {
-      document.getElementById("dropdown-menu").classList.remove("show");
-    }
-
-    window.addEventListener("click", closeDropdown);
-
-    function hideReport() {
-      const reportSection = document.getElementById("report-focus");
-      const iframe = document.getElementById("relatorio");
-      reportSection.classList.remove("visible");
-      iframe.src = "";
-      closeDropdown();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function selecionarRelatorio(id, event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const reportSection = document.getElementById("report-focus");
-      const iframe = document.getElementById("relatorio");
-      const title = document.getElementById("report-title-text");
-
-      if (id === "glpi") {
-        title.textContent = "Relatório GLPI";
-        iframe.src =
-"https://app.powerbi.com/view?r=eyJrIjoiMDk1OTgwNmMtZmI0My00MGJiLWI0NGMtMmI3ZmUyMTdjZDA3IiwidCI6IjA0OGIzYWI0LWM4MTUtNDM2Zi04MzRkLTU2OTY3MzQ3YzI0ZCJ9";
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 16px;
       }
 
-      reportSection.classList.add("visible");
-      closeDropdown();
-      reportSection.scrollIntoView({ behavior: "smooth" });
-    }
-  </script>
+      .logo {
+        height: 40px;
+      }
 
+      nav {
+        gap: 12px;
+        font-size: 11px;
+      }
+
+      #user-info {
+        max-width: 120px;
+      }
+
+      .hero {
+        padding: 32px 16px 40px;
+      }
+
+      .hero-title {
+        font-size: 26px;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+      }
+
+      #relatorio {
+        height: calc(100vh - 110px);
+      }
+    }
+  </style>
 </head>
 <body>
-
+  <!-- VÍDEO DE FUNDO -->
   <video autoplay muted loop id="bg-video">
-    <source src="https://github.com/Lucasvitor96/painelsgq.github.io/raw/main/Video%20Project%20(1).mp4" type="video/mp4">
+    <source src="https://github.com/Lucasvitor96/painelsgq.github.io/raw/main/Video%20Project%20(1).mp4" type="video/mp4" />
   </video>
   <div id="overlay"></div>
 
+  <!-- HEADER -->
   <header>
-    <img src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png" class="logo">
+    <img
+      src="https://raw.githubusercontent.com/Lucasvitor96/painelsgq.github.io/main/logo-carmel.png"
+      class="logo"
+      alt="Carmel Hotéis"
+    />
 
     <nav>
       <a onclick="hideReport()">Início</a>
@@ -177,27 +252,240 @@
       <div class="dropdown" onclick="event.stopPropagation();">
         <span class="nav-link" onclick="toggleDropdown(event)">Relatórios ▾</span>
         <div class="dropdown-menu" id="dropdown-menu">
-          <a href="#" onclick="selecionarRelatorio('glpi', event)">Relatório GLPI</a>
+          <!-- Itens de relatório serão inseridos via JavaScript conforme o e-mail -->
         </div>
       </div>
+
+      <span id="user-info"></span>
+      <a id="login-btn" onclick="loginComMicrosoft()">Entrar</a>
+      <a id="logout-btn" style="display: none;" onclick="logout()">Sair</a>
     </nav>
   </header>
 
+  <!-- HERO -->
   <section class="hero" id="hero">
     <h1 class="hero-title">Visão estratégica em um só lugar</h1>
     <p class="hero-sub">
-      Uma página exclusiva com acesso integrado aos principais relatórios,
-      reunindo informações essenciais para apoio à gestão e ao acompanhamento contínuo.
+      Uma página exclusiva com acesso integrado aos principais relatórios, reunindo informações essenciais para apoio à
+      gestão e ao acompanhamento contínuo.
     </p>
   </section>
 
+  <!-- ÁREA DO RELATÓRIO -->
   <section class="report-focus" id="report-focus">
-    <div class="report-title-box">
-      <span class="report-title" id="report-title-text">Relatório GLPI</span>
-    </div>
-
     <iframe id="relatorio" src=""></iframe>
   </section>
 
+  <!-- MSAL JS -->
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+
+  <!-- LÓGICA DO SITE + AUTENTICAÇÃO MICROSOFT -->
+  <script>
+    // ----------------------------------------
+    // 1) CONFIGURAÇÃO DOS RELATÓRIOS
+    // ----------------------------------------
+    const REPORTS = {
+      glpi_op: {
+        nome: "GLPI Operacional",
+        url: "https://app.powerbi.com/links/5-_PPyP2H-?ctid=048b3ab4-c815-436f-834d-56967347c24d&pbi_source=linkShare"
+      },
+      glpi_ger: {
+        nome: "GLPI Gerencial",
+        url: "https://app.powerbi.com/links/fiqk2ePywb?ctid=048b3ab4-c815-436f-834d-56967347c24d&pbi_source=linkShare"
+      }
+      // Adicione novos relatórios aqui se quiser
+    };
+
+    window.REPORTS = REPORTS;
+
+    // ----------------------------------------
+    // 2) FUNÇÕES DE INTERFACE (MENU / RELATÓRIO)
+    // ----------------------------------------
+    function toggleDropdown(event) {
+      event.stopPropagation();
+      const menu = document.getElementById("dropdown-menu");
+      menu.classList.toggle("show");
+    }
+    window.toggleDropdown = toggleDropdown;
+
+    function closeDropdown() {
+      const menu = document.getElementById("dropdown-menu");
+      if (menu) menu.classList.remove("show");
+    }
+    window.closeDropdown = closeDropdown;
+
+    window.addEventListener("click", closeDropdown);
+
+    function hideReport() {
+      const reportSection = document.getElementById("report-focus");
+      const iframe = document.getElementById("relatorio");
+      if (reportSection) reportSection.classList.remove("visible");
+      if (iframe) iframe.src = "";
+      closeDropdown();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    window.hideReport = hideReport;
+
+    function selecionarRelatorio(reportId, event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      const report = REPORTS[reportId];
+      if (!report) return;
+
+      const reportSection = document.getElementById("report-focus");
+      const iframe = document.getElementById("relatorio");
+
+      if (iframe) iframe.src = report.url;
+
+      if (reportSection) {
+        reportSection.classList.add("visible");
+        reportSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      closeDropdown();
+    }
+    window.selecionarRelatorio = selecionarRelatorio;
+
+    // ----------------------------------------
+    // 3) CONTROLE DE ACESSO POR E-MAIL (sempre minúsculo)
+    // ----------------------------------------
+    const ACCESS_CONFIG = {
+      "ti@hoteiscarmel.onmicrosoft.com": ["glpi_op", "glpi_ger"]
+      // Exemplo para adicionar outro usuário:
+      // "lucas.santos@hoteiscarmel.onmicrosoft.com": ["glpi_op"]
+    };
+
+    function montarMenuRelatorios(email) {
+      const menu = document.getElementById("dropdown-menu");
+      if (!menu) return;
+      menu.innerHTML = "";
+
+      const normalized = (email || "").toLowerCase();
+      const idsPermitidos = ACCESS_CONFIG[normalized] || [];
+
+      if (idsPermitidos.length === 0) {
+        const vazio = document.createElement("span");
+        vazio.textContent = "Nenhum relatório disponível.";
+        vazio.style.fontSize = "11px";
+        vazio.style.color = "#7b6a58";
+        menu.appendChild(vazio);
+        return;
+      }
+
+      idsPermitidos.forEach((id) => {
+        const rep = REPORTS[id];
+        if (!rep) return;
+
+        const link = document.createElement("a");
+        link.href = "#";
+        link.textContent = rep.nome;
+        link.onclick = (ev) => selecionarRelatorio(id, ev);
+        menu.appendChild(link);
+      });
+    }
+
+    // ----------------------------------------
+    // 4) MSAL CONFIG (AUTENTICAÇÃO MICROSOFT)
+    // ----------------------------------------
+    const msalConfig = {
+      auth: {
+        clientId: "SEU_CLIENT_ID_AQUI", // Application (client) ID
+        authority: "https://login.microsoftonline.com/SEU_TENANT_ID_AQUI", // Directory (tenant) ID
+        // redirectUri: "https://SEU_SITE.com", // se quiser fixo
+        redirectUri: window.location.origin + window.location.pathname
+      },
+      cache: {
+        cacheLocation: "sessionStorage",
+        storeAuthStateInCookie: false
+      }
+    };
+
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+    const loginRequest = {
+      scopes: ["openid", "profile", "email", "User.Read"]
+    };
+
+    // Atualiza interface com base no usuário logado
+    function atualizarUI(account) {
+      const spanUser = document.getElementById("user-info");
+      const btnLogin = document.getElementById("login-btn");
+      const btnLogout = document.getElementById("logout-btn");
+
+      if (account) {
+        const email = (account.username || "").toLowerCase();
+        if (spanUser) spanUser.textContent = email;
+        if (btnLogin) btnLogin.style.display = "none";
+        if (btnLogout) btnLogout.style.display = "inline";
+
+        montarMenuRelatorios(email);
+      } else {
+        if (spanUser) spanUser.textContent = "";
+        if (btnLogin) btnLogin.style.display = "inline";
+        if (btnLogout) btnLogout.style.display = "none";
+
+        montarMenuRelatorios("__anon__");
+      }
+    }
+
+    // ----------------------------------------
+    // 5) LOGIN / LOGOUT MICROSOFT
+    // ----------------------------------------
+    async function loginComMicrosoft() {
+      try {
+        console.log("Iniciando login Microsoft (MSAL)...");
+        const loginResponse = await msalInstance.loginPopup(loginRequest);
+        const account = loginResponse.account;
+        console.log("Login Microsoft OK:", account);
+        atualizarUI(account);
+      } catch (err) {
+        console.error("Erro no login Microsoft:", err);
+        alert("Erro ao entrar com Microsoft: " + (err.message || err));
+      }
+    }
+    window.loginComMicrosoft = loginComMicrosoft;
+
+    async function logout() {
+      try {
+        const accounts = msalInstance.getAllAccounts();
+        if (accounts.length > 0) {
+          await msalInstance.logoutPopup({ account: accounts[0] });
+        }
+        atualizarUI(null);
+        hideReport();
+      } catch (err) {
+        console.error(err);
+        alert("Erro ao sair.");
+      }
+    }
+    window.logout = logout;
+
+    // ----------------------------------------
+    // 6) INICIALIZAÇÃO AO CARREGAR A PÁGINA
+    // ----------------------------------------
+    // Tenta reaproveitar sessão caso o usuário já tenha logado antes
+    msalInstance.handleRedirectPromise()
+      .then((response) => {
+        let account = null;
+
+        if (response && response.account) {
+          account = response.account;
+        } else {
+          const currentAccounts = msalInstance.getAllAccounts();
+          if (currentAccounts.length > 0) {
+            account = currentAccounts[0];
+          }
+        }
+
+        atualizarUI(account);
+      })
+      .catch((error) => {
+        console.error("Erro ao processar redirect do MSAL:", error);
+        atualizarUI(null);
+      });
+  </script>
 </body>
 </html>
